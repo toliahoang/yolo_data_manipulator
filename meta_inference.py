@@ -101,52 +101,52 @@ class ImageClassifier:
 
         return self.output_layers
 
-    # def run_inference_for_single_image(self, image, image_format='BGR', threshold=0.5, nms_threshold=0.4):
-    #     """Run inference for image"""
-    #
-    #     height, width, channels = image.shape
-    #
-    #     _, model_shape, _ = self.load_config()
-    #
-    #     net = self.load_model()
-    #
-    #     # if image is of RGB format then swapRB=False
-    #     blob = cv2.dnn.blobFromImage(image,
-    #                                  scalefactor=1.0 / 255,
-    #                                  size=(model_shape[0], model_shape[1]),
-    #                                  mean=(0, 0, 0),
-    #                                  swapRB=(image_format == 'BGR'),
-    #                                  crop=False)
-    #     net.setInput(blob)
-    #
-    #     # predict
-    #     class_ids = []
-    #     confidences = []
-    #     boxes = []
-    #     outs = net.forward(self.get_output_layers())
-    #
-    #     for out in outs:
-    #         for detection in out:
-    #             scores = detection[5:]
-    #             class_id = np.argmax(scores)
-    #             confidence = scores[class_id]
-    #             if confidence > threshold:
-    #                 w = int(detection[2] * width)
-    #                 h = int(detection[3] * height)
-    #                 left = int(width * detection[0] - w / 2)
-    #                 top = int(height * detection[1] - h / 2)
-    #                 boxes.append((left, top, w, h))
-    #                 class_ids.append(class_id)
-    #                 confidences.append(float(confidence))
-    #
-    #     # apply non-max suppression
-    #     indices = cv2.dnn.NMSBoxes(boxes, confidences, threshold, nms_threshold)
-    #     # TODO check indicies when no object detected
-    #     if indices is not None and len(indices) > 0:
-    #         indices = np.squeeze(indices, axis=-1)
-    #         return [(boxes[i], confidences[i], class_ids[i]) for i in indices]
-    #     else:
-    #         return []
+    def run_inference_for_single_image_pure(self, image, image_format='BGR', threshold=0.5, nms_threshold=0.4):
+        """Run inference for image"""
+    
+        height, width, channels = image.shape
+    
+        _, model_shape, _ = self.load_config()
+    
+        net = self.load_model()
+    
+        # if image is of RGB format then swapRB=False
+        blob = cv2.dnn.blobFromImage(image,
+                                     scalefactor=1.0 / 255,
+                                     size=(model_shape[0], model_shape[1]),
+                                     mean=(0, 0, 0),
+                                     swapRB=(image_format == 'BGR'),
+                                     crop=False)
+        net.setInput(blob)
+    
+        # predict
+        class_ids = []
+        confidences = []
+        boxes = []
+        outs = net.forward(self.get_output_layers())
+    
+        for out in outs:
+            for detection in out:
+                scores = detection[5:]
+                class_id = np.argmax(scores)
+                confidence = scores[class_id]
+                if confidence > threshold:
+                    w = int(detection[2] * width)
+                    h = int(detection[3] * height)
+                    left = int(width * detection[0] - w / 2)
+                    top = int(height * detection[1] - h / 2)
+                    boxes.append((left, top, w, h))
+                    class_ids.append(class_id)
+                    confidences.append(float(confidence))
+    
+        # apply non-max suppression
+        indices = cv2.dnn.NMSBoxes(boxes, confidences, threshold, nms_threshold)
+        # TODO check indicies when no object detected
+        if indices is not None and len(indices) > 0:
+            indices = np.squeeze(indices, axis=-1)
+            return [(boxes[i], confidences[i], class_ids[i]) for i in indices]
+        else:
+            return []
 
 
 
