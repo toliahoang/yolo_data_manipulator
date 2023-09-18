@@ -36,9 +36,6 @@ def try_ocr_for_single_image(objects, image):
                     return False
 
 
-
-
-
 # use opencv instead of tf
 class ImageClassifier:
     def __init__(self, model_folder='model', config_file='yolov3_apex_watermark.cfg',
@@ -149,13 +146,6 @@ class ImageClassifier:
             return []
 
 
-
-
-
-
-
-
-
     def run_inference_for_single_image(self, image, image_format='BGR', threshold=0.5, nms_threshold=0.4):
         """Run inference for image"""
         height, width, channels = image.shape
@@ -259,8 +249,6 @@ class ImageClassifier:
                 cv2.imwrite("img_tet/name_{}".format(name), image)
 
 
-
-
     def meta_pseudo_label(self, name, image, image_format='BGR', threshold=0.5, nms_threshold=0.5, show=True):
         """Show detected object on image"""
 
@@ -295,8 +283,6 @@ class ImageClassifier:
                 f.write('\n')
         # get_img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
         # get_img.show()
-
-
 
 
 def convert(size, box):
@@ -343,14 +329,10 @@ def find_block(blocks, block_type):
 test_single_img = ImageClassifier()
 
 list_name = [i for i in os.listdir("watermark") if i.endswith(".jpg")]
-# list_name = ['watermark_00.JPG', 'watermark_01.JPG', 'watermark_02.JPG']
-# list_name = ['Watermark (143).jpg']
-# list_name = ['gameover.JPG','gameover1.JPG', 'gameover2.JPG']
+
 
 for name in list_name:
     if name is not None:
-        print(name)
-        # path = name
         path = 'watermark/' + name
         img = cv2.imread(path)
         new_img = test_single_img.meta_pseudo_label(name.split(".")[0], img, image_format='BGR', threshold=0.6, nms_threshold=0.5, show=True)
