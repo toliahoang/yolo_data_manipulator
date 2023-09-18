@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 from IPython.display import display
 
 
-
 def convert_box(b, width, height):
     """Convert box from xywh format to x1y1x2y2 format, max width and heigth should not exceed limit"""
     x, y, w, h = b
