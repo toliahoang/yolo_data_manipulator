@@ -1,5 +1,5 @@
 import os
-from yolo_rename_class.get_all_directory import get_directory
+from list_all_files_directory import get_directory
 
 
 class_map_dict = {
